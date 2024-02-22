@@ -21,8 +21,16 @@ namespace BroadcastSocialMedia.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            var dbUser = await _dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
+
+            //man måste tydligen ha denna koden för att kunna hämta Listening to. Koden precis ovan räcker inte trots att den innehåller samma delar. Konstigt!?
+            var listeningTo = await _dbContext.Users.Where(u => u.Id == user.Id)
+                .SelectMany(u => u.ListeningTo)
+                .ToListAsync();
+
             return View();
         }
 

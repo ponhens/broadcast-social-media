@@ -36,7 +36,8 @@ namespace BroadcastSocialMedia.Controllers
         {
             var broadCasts = await _dbContext.Broadcasts.Where(b => b.User.Id == id).OrderByDescending(b => b.Published).ToListAsync();
             //Såhär skrev kursledaren// var user = await _userManager.GetUserAsync(User); // men jag tror att han gjorde fel så jag skrev som (se nedan) 
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            //var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _dbContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
 
 
             var viewModel = new UsersShowUserViewModel()
@@ -46,6 +47,21 @@ namespace BroadcastSocialMedia.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost, Route("/Users/Listen")]
+        public async Task<IActionResult> ListenToUser(UsersListenToUserViewModel viewModel)
+        {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            var userToListenTo = await _dbContext.Users.Where(u => u.Id == viewModel.UserId)
+                .FirstOrDefaultAsync();
+
+            loggedInUser.ListeningTo.Add(userToListenTo);
+
+            await _userManager.UpdateAsync(loggedInUser);
+            await _dbContext.SaveChangesAsync();
+
+            return Redirect("/");
         }
     }
 }
