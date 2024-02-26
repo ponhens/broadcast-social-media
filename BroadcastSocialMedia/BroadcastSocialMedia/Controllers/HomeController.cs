@@ -24,22 +24,28 @@ namespace BroadcastSocialMedia.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            var dbUser = await _dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
-
-            //man måste tydligen ha denna koden för att kunna hämta Listening to. Koden precis ovan räcker inte trots att den innehåller samma delar. Konstigt!?
-            var broadcasts = await _dbContext.Users.Where(u => u.Id == user.Id)
-                .SelectMany(u => u.ListeningTo)
-                .SelectMany(u => u.Broadcasts)
-                .Include(b => b.User)
-                .OrderByDescending(b => b.Published)
-                .ToListAsync();
-
-            var viewModel = new HomeIndexViewModel()
+            if (user != null) 
             {
-                Broadcasts = broadcasts
-            };
+                var dbUser = await _dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
 
-            return View(viewModel);
+                //man måste tydligen ha denna koden för att kunna hämta Listening to. Koden precis ovan räcker inte trots att den innehåller samma delar. Konstigt!?
+                var broadcasts = await _dbContext.Users.Where(u => u.Id == user.Id)
+                    .SelectMany(u => u.ListeningTo)
+                    .SelectMany(u => u.Broadcasts)
+                    .Include(b => b.User)
+                    .OrderByDescending(b => b.Published)
+                    .ToListAsync();
+
+                var viewModel = new HomeIndexViewModel()
+                {
+                    Broadcasts = broadcasts
+                };
+
+                return View(viewModel);
+            }
+
+            return View();
+            
         }
 
         public IActionResult Privacy()
