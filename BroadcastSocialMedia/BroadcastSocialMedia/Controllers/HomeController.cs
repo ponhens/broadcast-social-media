@@ -13,12 +13,14 @@ namespace BroadcastSocialMedia.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IWebHostEnvironment hostingEnvironment)
         {
             _logger = logger;
             _userManager = userManager;
             _dbContext = dbContext;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -62,11 +64,20 @@ namespace BroadcastSocialMedia.Controllers
         [HttpPost]
         public async Task<IActionResult> Broadcast(HomeBroadcastViewModel viewModel)
         {
+            var wwwrootPath = _hostingEnvironment.WebRootPath + "\\images\\broadcastImages";
+            var fileNameGUID = Guid.NewGuid().ToString() + Path.GetExtension(viewModel.ImageFile.FileName);
+            var filePath = Path.Combine(wwwrootPath, fileNameGUID);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                viewModel.ImageFile.CopyTo(stream);
+            }
+
             var user = await _userManager.GetUserAsync(User);
             var broadcast = new Broadcast()
             {
                 Message = viewModel.Message,
                 User = user,
+                ImageFilenameGUID = fileNameGUID,
             };
 
             _dbContext.Broadcasts.Add(broadcast);

@@ -63,5 +63,20 @@ namespace BroadcastSocialMedia.Controllers
 
             return Redirect("/");
         }
+
+        [HttpPost, Route("/Users/StopListen")]
+        public async Task<IActionResult> StopListenToUser(UsersListenToUserViewModel viewModel)
+        {
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            var userToStopListenTo = await _dbContext.Users.Where(u => u.Id == viewModel.UserId)
+                .FirstOrDefaultAsync();
+
+            loggedInUser.ListeningTo.Remove(userToStopListenTo);
+
+            await _userManager.UpdateAsync(loggedInUser);
+            await _dbContext.SaveChangesAsync();
+
+            return Redirect("/");
+        }
     }
 }

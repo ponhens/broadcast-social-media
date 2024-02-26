@@ -10,16 +10,15 @@
         <h1 class="display-4">Welcome</h1>
 
         <h2>New Broadcast</h2>
-
-        <form method="post" action="/Home/Broadcast">
+        <form method="post" action="/Home/Broadcast" enctype="multipart/form-data">
             <textarea name="Message"></textarea> <br />
+            <input type="file" name="ImageFile">
             <input type="submit" value="post" />
         </form>
 
         <hr />
 
         <h2>Broadcasts</h2>
-
         @foreach (var broadcast in @Model.Broadcasts)
         {
             <p>

@@ -18,6 +18,11 @@
             <input type="hidden" name="UserId" value="@Model.User.Id" />
             <input type="submit" value="Listen to"/>
         </form>
+
+        <form action="/Users/StopListen" method="post">
+            <input type="hidden" name="UserId" value="@Model.User.Id" />
+            <input type="submit" value="Stop listening to" />
+        </form>
     }
 
     @foreach (var broadcast in @Model.Broadcasts)
