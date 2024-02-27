@@ -28,7 +28,7 @@ namespace BroadcastSocialMedia.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user != null) 
             {
-                var dbUser = await _dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
+                //var dbUser = await _dbContext.Users.Where(u => u.Id == user.Id).FirstOrDefaultAsync();
 
                 //man måste tydligen ha denna koden för att kunna hämta Listening to. Koden precis ovan räcker inte trots att den innehåller samma delar. Konstigt!?
                 var broadcasts = await _dbContext.Users.Where(u => u.Id == user.Id)
@@ -38,9 +38,13 @@ namespace BroadcastSocialMedia.Controllers
                     .OrderByDescending(b => b.Published)
                     .ToListAsync();
 
+                string projectDirectory = Directory.GetCurrentDirectory();
+                string relativePath = "wwwroot\\images\\broadcastImages\\";
+                string fullPath = Path.Combine(projectDirectory, relativePath);
+
                 var viewModel = new HomeIndexViewModel()
                 {
-                    Broadcasts = broadcasts
+                    Broadcasts = broadcasts,
                 };
 
                 return View(viewModel);
@@ -64,13 +68,7 @@ namespace BroadcastSocialMedia.Controllers
         [HttpPost]
         public async Task<IActionResult> Broadcast(HomeBroadcastViewModel viewModel)
         {
-            var wwwrootPath = _hostingEnvironment.WebRootPath + "\\images\\broadcastImages";
-            var fileNameGUID = Guid.NewGuid().ToString() + Path.GetExtension(viewModel.ImageFile.FileName);
-            var filePath = Path.Combine(wwwrootPath, fileNameGUID);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                viewModel.ImageFile.CopyTo(stream);
-            }
+            var fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
 
             var user = await _userManager.GetUserAsync(User);
             var broadcast = new Broadcast()
@@ -84,6 +82,35 @@ namespace BroadcastSocialMedia.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Redirect("/");
+        }
+
+        private string SaveImageFileInServerFolderAndCreateGUIDForIt(IFormFile imageFile)
+        {
+            string projectDirectory = Directory.GetCurrentDirectory();
+            string relativePath = "wwwroot\\images\\broadcastImages";
+            string fullPath = Path.Combine(projectDirectory, relativePath);
+            var fileNameGUID = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+            string fullPathPlusImageFileName = Path.Combine(fullPath, fileNameGUID);
+
+            using (var stream = new FileStream(fullPathPlusImageFileName, FileMode.Create))
+            {
+                imageFile.CopyTo(stream);
+            }
+
+            return fileNameGUID;
+
+
+
+            //var wwwrootPath = Directory.GetCurrentDirectory(); + "wwwroot\\images\\broadcastImages\\";
+
+            //var wwwrootPath = _hostingEnvironment.WebRootPath + "\\images\\broadcastImages";
+            //var fileNameGUID = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+            //var filePath = Path.Combine(wwwrootPath, fileNameGUID);
+            //using (var stream = new FileStream(filePath, FileMode.Create))
+            //{
+            //    imageFile.CopyTo(stream);
+            //}
+            //return fileNameGUID;
         }
     }
 }
