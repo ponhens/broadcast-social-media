@@ -9,5 +9,7 @@ namespace BroadcastSocialMedia.Models
 
         //varför skriver man inte new ICollection<ApplicationUser>(); ?
         public ICollection<ApplicationUser> ListeningTo { get; set; } = new List<ApplicationUser>();
+
+        public string ProfileImageFilenameGUID { get; set; }
     }
 }

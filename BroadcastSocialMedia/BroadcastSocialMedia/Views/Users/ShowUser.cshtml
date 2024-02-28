@@ -31,5 +31,11 @@
             <b>@broadcast.Published.ToShortDateString() @broadcast.Published.ToShortTimeString()</b>:
             @broadcast.Message
         </p>
+        <div style="height:100px">
+            @if (@broadcast.ImageFilenameGUID != "")
+            {
+                <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
+            }
+        </div>
     }
 </div>

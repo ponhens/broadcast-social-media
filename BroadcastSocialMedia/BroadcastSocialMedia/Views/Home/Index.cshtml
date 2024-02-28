@@ -21,21 +21,24 @@
         <h2>Broadcasts</h2>
         @foreach (var broadcast in @Model.Broadcasts)
         {
-            
-                <p>
-                    <b>
-                        @broadcast.User.Name
-                        (@broadcast.Published.ToShortDateString() @broadcast.Published.ToShortTimeString())
-                    </b>:
-                    @broadcast.Message
-                </p>
-            @if (@broadcast.ImageFilenameGUID != "")
-            {
-                <div>
-                    <img style="height:50px;width:50px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
-                </div>
-            }
-            
+
+            <p>
+                <b>
+                    <img style="height:30px" src="~/images/profilePictures/@broadcast.User.ProfileImageFilenameGUID" alt="Your Profile Image">
+                    @broadcast.User.Name
+                    (@broadcast.Published.ToShortDateString() @broadcast.Published.ToShortTimeString())
+                </b>:
+                @broadcast.Message
+            </p>
+
+            <div style="height:100px">
+                @if (@broadcast.ImageFilenameGUID != "")
+                {
+                    <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
+                }
+            </div>
+
+
         }
 
     </div>

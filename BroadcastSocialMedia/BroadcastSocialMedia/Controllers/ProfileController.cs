@@ -22,22 +22,42 @@ namespace BroadcastSocialMedia.Controllers
             var viewModel = new ProfileIndexViewModel()
             {
                 //"om user.Name är null, använd då en tom sträng ("")"
-                Name = user.Name ?? ""
+                Name = user.Name ?? "",
+                ImageFilenameGUID = user.ProfileImageFilenameGUID,
             };
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update( ProfileIndexViewModel viewModel)
+        public async Task<IActionResult> Update(ProfileUpdateViewModel viewModel)
         {
+            var fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
+
             var user = await _userManager.GetUserAsync(User);
 
             user.Name = viewModel.Name;
+            user.ProfileImageFilenameGUID = fileNameGUID;
 
            await _userManager.UpdateAsync(user);
 
             return Redirect("/");
+        }
+
+        private string SaveImageFileInServerFolderAndCreateGUIDForIt(IFormFile imageFile)
+        {
+            string projectDirectory = Directory.GetCurrentDirectory();
+            string relativePath = "wwwroot\\images\\profilePictures";
+            string fullPath = Path.Combine(projectDirectory, relativePath);
+            var fileNameGUID = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+            string fullPathPlusImageFileName = Path.Combine(fullPath, fileNameGUID);
+
+            using (var stream = new FileStream(fullPathPlusImageFileName, FileMode.Create))
+            {
+                imageFile.CopyTo(stream);
+            }
+
+            return fileNameGUID;
         }
     }
 }

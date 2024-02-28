@@ -4,8 +4,15 @@
 <div>
     <h1>Update profile</h1>
 
-    <form method="post" action="/Profile/Update">
+    <form method="post" action="/Profile/Update" enctype="multipart/form-data">
         <input value="@Model.Name" name="Name" placholder="Name" />
+        <input type="file" name="ImageFile">
         <input type="submit" value="Save">
     </form>
+
+    @if (@Model.ImageFilenameGUID != "")
+    {
+        <img style="height:100px" src="~/images/profilePictures/@Model.ImageFilenameGUID" alt="Your Image">
+    }
+
 </div>

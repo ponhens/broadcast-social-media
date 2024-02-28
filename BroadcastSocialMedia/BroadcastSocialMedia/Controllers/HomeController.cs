@@ -98,19 +98,6 @@ namespace BroadcastSocialMedia.Controllers
             }
 
             return fileNameGUID;
-
-
-
-            //var wwwrootPath = Directory.GetCurrentDirectory(); + "wwwroot\\images\\broadcastImages\\";
-
-            //var wwwrootPath = _hostingEnvironment.WebRootPath + "\\images\\broadcastImages";
-            //var fileNameGUID = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-            //var filePath = Path.Combine(wwwrootPath, fileNameGUID);
-            //using (var stream = new FileStream(filePath, FileMode.Create))
-            //{
-            //    imageFile.CopyTo(stream);
-            //}
-            //return fileNameGUID;
         }
     }
 }

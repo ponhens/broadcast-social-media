@@ -1,8 +1,8 @@
 ﻿namespace BroadcastSocialMedia.ViewModels
 {
-    public class ProfileIndexViewModel
+    public class ProfileUpdateViewModel
     {
         public string Name { get; set; }
-        public string ImageFilenameGUID { get; set; }
+        public IFormFile ImageFile { get; set; }
     }
 }
