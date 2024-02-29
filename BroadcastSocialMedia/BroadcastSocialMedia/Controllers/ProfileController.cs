@@ -1,4 +1,5 @@
-﻿using BroadcastSocialMedia.Models;
+﻿using BroadcastSocialMedia.Data;
+using BroadcastSocialMedia.Models;
 using BroadcastSocialMedia.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,13 @@ namespace BroadcastSocialMedia.Controllers
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public ProfileController(UserManager<ApplicationUser> userManager)
+        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
+            _dbContext = dbContext;
+
         }
 
         public async Task<IActionResult> Index()
@@ -32,16 +36,38 @@ namespace BroadcastSocialMedia.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(ProfileUpdateViewModel viewModel)
         {
-            var fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
-
             var user = await _userManager.GetUserAsync(User);
 
+            var anotherUserAlreadyHasThatName = _dbContext.Users.Any(u => u.Name == viewModel.Name);
+
+            if (anotherUserAlreadyHasThatName == true) 
+            {
+                ModelState.AddModelError("Name", "Name is already taken.");
+
+                var profileImageViewModel = new ProfileIndexViewModel()
+                {
+                    //"om user.Name är null, använd då en tom sträng ("")"
+                    Name = viewModel.Name ?? "",
+                    ImageFilenameGUID = user.ProfileImageFilenameGUID,
+                    //ImageFilenameGUID = user.ProfileImageFilenameGUID,
+                };
+
+                return View("Index", profileImageViewModel);
+            }
+
+            if (viewModel.ImageFile != null)
+            {
+                var fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
+                user.ProfileImageFilenameGUID = fileNameGUID;
+            }
+
             user.Name = viewModel.Name;
-            user.ProfileImageFilenameGUID = fileNameGUID;
 
-           await _userManager.UpdateAsync(user);
+            
 
-            return Redirect("/");
+            await _userManager.UpdateAsync(user);
+
+            return Redirect("/Profile");
         }
 
         private string SaveImageFileInServerFolderAndCreateGUIDForIt(IFormFile imageFile)
