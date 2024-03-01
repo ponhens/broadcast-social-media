@@ -25,8 +25,7 @@ namespace BroadcastSocialMedia.Controllers
 
             var viewModel = new ProfileIndexViewModel()
             {
-                //"om user.Name är null, använd då en tom sträng ("")"
-                Name = user.Name ?? "",
+                Name = user.Name ?? "", //"om user.Name är null, använd då en tom sträng ("")"
                 ImageFilenameGUID = user.ProfileImageFilenameGUID,
             };
 
@@ -42,11 +41,9 @@ namespace BroadcastSocialMedia.Controllers
 
             if (anotherUserAlreadyHasThatName == true) 
             {
-
                 var profileImageViewModel = new ProfileIndexViewModel()
                 {
-                    //"om user.Name är null, använd då en tom sträng ("")"
-                    Name = viewModel.Name ?? "",
+                    Name = viewModel.Name ?? "",  //"om user.Name är null, använd då en tom sträng ("")"
                     ImageFilenameGUID = user.ProfileImageFilenameGUID,
                     ErrorMessage = "This name is already taken."
                 };
@@ -61,8 +58,6 @@ namespace BroadcastSocialMedia.Controllers
             }
 
             user.Name = viewModel.Name;
-
-            
 
             await _userManager.UpdateAsync(user);
 
