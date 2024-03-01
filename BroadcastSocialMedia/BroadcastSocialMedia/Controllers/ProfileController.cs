@@ -34,7 +34,7 @@ namespace BroadcastSocialMedia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(ProfileUpdateViewModel viewModel)
+        public async Task<IActionResult> Index(ProfileUpdateViewModel viewModel)
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -42,14 +42,13 @@ namespace BroadcastSocialMedia.Controllers
 
             if (anotherUserAlreadyHasThatName == true) 
             {
-                ModelState.AddModelError("Name", "Name is already taken.");
 
                 var profileImageViewModel = new ProfileIndexViewModel()
                 {
                     //"om user.Name är null, använd då en tom sträng ("")"
                     Name = viewModel.Name ?? "",
                     ImageFilenameGUID = user.ProfileImageFilenameGUID,
-                    //ImageFilenameGUID = user.ProfileImageFilenameGUID,
+                    ErrorMessage = "This name is already taken."
                 };
 
                 return View("Index", profileImageViewModel);

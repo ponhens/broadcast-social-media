@@ -4,5 +4,6 @@
     {
         public string Name { get; set; }
         public string ImageFilenameGUID { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }
