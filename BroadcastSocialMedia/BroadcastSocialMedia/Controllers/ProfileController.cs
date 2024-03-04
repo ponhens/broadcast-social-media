@@ -33,7 +33,7 @@ namespace BroadcastSocialMedia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ProfileUpdateViewModel viewModel)
+        public async Task<IActionResult> Update(ProfileUpdateViewModel viewModel)
         {
             var user = await _userManager.GetUserAsync(User);
 
