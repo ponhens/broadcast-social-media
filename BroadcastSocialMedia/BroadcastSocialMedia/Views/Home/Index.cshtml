@@ -38,6 +38,11 @@
                 }
             </div>
 
+            <form method="post" action="/Home/LikeBroadcast">
+                <input type="hidden" name="BroadcastId" value=@broadcast.Id>
+                <input type="submit" value="Like" />
+            </form>
+
 
         }
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 
 namespace BroadcastSocialMedia.Controllers
 {
@@ -80,6 +81,29 @@ namespace BroadcastSocialMedia.Controllers
 
             _dbContext.Broadcasts.Add(broadcast);
             await _dbContext.SaveChangesAsync();
+
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LikeBroadcast(HomeLikeBroadcastViewModel viewModel)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            var broadcast = await _dbContext.Broadcasts.FirstOrDefaultAsync(b => b.Id == viewModel.BroadcastId);
+            var userAlreadyLike = await _dbContext.Broadcasts.Where(b => b.Id == viewModel.BroadcastId)
+                .SelectMany(b => b.UserThatLike).Where(u => u.UserId == user.Id).FirstOrDefaultAsync();
+
+            if (userAlreadyLike == null)
+            {
+                var userThatLikeBroadcast = new UserThatLikeBroadcast
+                {
+                    UserId = user.Id
+                };
+
+            broadcast.UserThatLike.Add(userThatLikeBroadcast);
+                await _dbContext.SaveChangesAsync();
+            }
 
             return Redirect("/");
         }
