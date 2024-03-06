@@ -31,12 +31,17 @@
                 @broadcast.Message
             </p>
 
-            <div style="height:100px">
+            
                 @if (@broadcast.ImageFilenameGUID != "")
                 {
                     <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
                 }
-            </div>
+
+
+            @if (broadcast.UserThatLike.Count != 0)
+            {
+                <p>@broadcast.UserThatLike.Count gillar detta</p>
+            }
 
             <form method="post" action="/Home/LikeBroadcast">
                 <input type="hidden" name="BroadcastId" value=@broadcast.Id>

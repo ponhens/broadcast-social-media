@@ -4,6 +4,7 @@ using BroadcastSocialMedia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BroadcastSocialMedia.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240306132256_AddedNameOfUserThatLikeToUserThatLikeBroadcast")]
+    partial class AddedNameOfUserThatLikeToUserThatLikeBroadcast
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,7 +139,7 @@ namespace BroadcastSocialMedia.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BroadcastID")
+                    b.Property<int?>("BroadcastId")
                         .HasColumnType("int");
 
                     b.Property<string>("NameOfUserThatLike")
@@ -149,7 +152,7 @@ namespace BroadcastSocialMedia.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BroadcastID");
+                    b.HasIndex("BroadcastId");
 
                     b.ToTable("UsersThatLikeBroadcast");
                 });
@@ -311,9 +314,7 @@ namespace BroadcastSocialMedia.Data.Migrations
                 {
                     b.HasOne("BroadcastSocialMedia.Models.Broadcast", null)
                         .WithMany("UserThatLike")
-                        .HasForeignKey("BroadcastID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BroadcastId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -4,6 +4,7 @@ using BroadcastSocialMedia.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Diagnostics;
 using System.Linq;
 
@@ -35,6 +36,7 @@ namespace BroadcastSocialMedia.Controllers
                 var broadcasts = await _dbContext.Users.Where(u => u.Id == user.Id)
                     .SelectMany(u => u.ListeningTo)
                     .SelectMany(u => u.Broadcasts)
+                    .Include(b => b.UserThatLike)
                     .Include(b => b.User)
                     .OrderByDescending(b => b.Published)
                     .ToListAsync();
@@ -98,7 +100,9 @@ namespace BroadcastSocialMedia.Controllers
             {
                 var userThatLikeBroadcast = new UserThatLikeBroadcast
                 {
-                    UserId = user.Id
+                    UserId = user.Id,
+                    NameOfUserThatLike = user.Name,
+                    BroadcastID = broadcast.Id,
                 };
 
             broadcast.UserThatLike.Add(userThatLikeBroadcast);
