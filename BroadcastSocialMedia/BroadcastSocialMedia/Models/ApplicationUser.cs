@@ -7,6 +7,6 @@ namespace BroadcastSocialMedia.Models
         public string? Name { get; set; }
         public ICollection<Broadcast> Broadcasts { get; set; }
         public ICollection<ApplicationUser> ListeningTo { get; set; } = new List<ApplicationUser>();
-        public string ProfileImageFilenameGUID { get; set; }
+        public string ?ProfileImageFilenameGUID { get; set; }
     }
 }
