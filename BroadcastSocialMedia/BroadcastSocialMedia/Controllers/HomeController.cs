@@ -71,7 +71,11 @@ namespace BroadcastSocialMedia.Controllers
         [HttpPost]
         public async Task<IActionResult> Broadcast(HomeBroadcastViewModel viewModel)
         {
-            var fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
+            var fileNameGUID = "";
+            if (viewModel.ImageFile != null)
+            {
+                fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
+            }
 
             var user = await _userManager.GetUserAsync(User);
             var broadcast = new Broadcast()

@@ -1,0 +1,29 @@
+﻿@model RecommendedUsersIndexViewModel
+
+@{
+    ViewData["Title"] = "Recommended Users";
+}
+
+@if (Model != null)
+{
+
+    <h2>We recommend you to follow these users</h2>
+    @for (int i = 0; i < 3 && i < Model.RecommendedUsers.Count; i++)
+    {
+
+        <p>
+            <b>
+                @Model.RecommendedUsers[i].Name
+            </b>
+        </p>
+
+
+        @if (@Model.RecommendedUsers[i].ProfileImageFilenameGUID != "")
+        {
+            <img style="height:30px" src="~/images/profilePictures/@Model.RecommendedUsers[i].ProfileImageFilenameGUID" alt="Your Profile Image">
+        }
+
+
+        
+    }
+}
