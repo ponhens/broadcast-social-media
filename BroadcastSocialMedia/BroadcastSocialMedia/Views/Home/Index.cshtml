@@ -8,7 +8,12 @@
 {
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
-
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
         <h2>New Broadcast</h2>
         <form method="post" action="/Home/Broadcast" enctype="multipart/form-data">
             <textarea name="Message"></textarea> <br />

@@ -41,13 +41,14 @@ namespace BroadcastSocialMedia.Controllers
                     .OrderByDescending(b => b.Published)
                     .ToListAsync();
 
-                string projectDirectory = Directory.GetCurrentDirectory();
-                string relativePath = "wwwroot\\images\\broadcastImages\\";
-                string fullPath = Path.Combine(projectDirectory, relativePath);
+                //string projectDirectory = Directory.GetCurrentDirectory();
+                //string relativePath = "wwwroot\\images\\broadcastImages\\";
+                //string fullPath = Path.Combine(projectDirectory, relativePath);
 
                 var viewModel = new HomeIndexViewModel()
                 {
                     Broadcasts = broadcasts,
+                    ErrorMessage = null,
                 };
 
                 return View(viewModel);
@@ -71,13 +72,32 @@ namespace BroadcastSocialMedia.Controllers
         [HttpPost]
         public async Task<IActionResult> Broadcast(HomeBroadcastViewModel viewModel)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (string.IsNullOrEmpty(viewModel.Message))
+            {
+                var broadcasts = await _dbContext.Users.Where(u => u.Id == user.Id)
+                   .SelectMany(u => u.ListeningTo)
+                   .SelectMany(u => u.Broadcasts)
+                   .Include(b => b.UserThatLike)
+                   .Include(b => b.User)
+                   .OrderByDescending(b => b.Published)
+                   .ToListAsync();
+
+                var indexViewModel = new HomeIndexViewModel()
+                {
+                    Broadcasts = broadcasts,
+                    ErrorMessage = "Fyll i meddelande innan du postar ",
+                };
+
+                return View("Index", indexViewModel);
+            }
+
             var fileNameGUID = "";
             if (viewModel.ImageFile != null)
             {
                 fileNameGUID = SaveImageFileInServerFolderAndCreateGUIDForIt(viewModel.ImageFile);
             }
 
-            var user = await _userManager.GetUserAsync(User);
             var broadcast = new Broadcast()
             {
                 Message = viewModel.Message,

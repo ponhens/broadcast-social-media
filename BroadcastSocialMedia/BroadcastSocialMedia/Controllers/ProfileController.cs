@@ -36,8 +36,12 @@ namespace BroadcastSocialMedia.Controllers
         public async Task<IActionResult> Update(ProfileUpdateViewModel viewModel)
         {
             var user = await _userManager.GetUserAsync(User);
+            var anotherUserAlreadyHasThatName = false;
 
-            var anotherUserAlreadyHasThatName = _dbContext.Users.Any(u => u.Name == viewModel.Name);
+            if (viewModel.Name != user.Name)
+            {
+                anotherUserAlreadyHasThatName = _dbContext.Users.Any(u => u.Name == viewModel.Name);
+            }
 
             if (anotherUserAlreadyHasThatName == true) 
             {
