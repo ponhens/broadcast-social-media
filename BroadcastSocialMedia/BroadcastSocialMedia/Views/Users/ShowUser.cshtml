@@ -9,17 +9,17 @@
 }
 
 
-<div>
+<div class="viewsContainer">
     <h1>Broadcasts from @Model.User.Name</h1>
 
     @if (user.Id != Model.User.Id)
     {
-        <form action="/Users/Listen" method="post">
+        <form style="margin-bottom: 10px;" action="/Users/Listen" method="post">
             <input type="hidden" name="UserId" value="@Model.User.Id" />
             <input type="submit" value="Listen to"/>
         </form>
 
-        <form action="/Users/StopListen" method="post">
+        <form style="margin-bottom: 20px;" action="/Users/StopListen" method="post">
             <input type="hidden" name="UserId" value="@Model.User.Id" />
             <input type="submit" value="Stop listening to" />
         </form>
@@ -27,6 +27,8 @@
 
     @foreach (var broadcast in @Model.Broadcasts)
     {
+        <div class="broadcast">
+
         <p>
             <b>@broadcast.Published.ToShortDateString() @broadcast.Published.ToShortTimeString()</b>:
             @broadcast.Message
@@ -36,6 +38,8 @@
             {
                 <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
             }
+        </div>
+
         </div>
     }
 </div>

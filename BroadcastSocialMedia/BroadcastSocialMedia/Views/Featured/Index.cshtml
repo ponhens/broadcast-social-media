@@ -4,21 +4,23 @@
     ViewData["Title"] = "Featured Broadcasts";
 }
 
+<div class="viewsContainer">
+
 @if (Model != null)
 {
 
     <h2>Featured broadcasts</h2>
     @for (int i = 0; i < 5 && i < Model.SortedBroadcasts.Count; i++)
     {
-
+         <div class="broadcast">
         <p>
             <b>
-                <img style="height:30px" src="~/images/profilePictures/@Model.SortedBroadcasts[i].User.ProfileImageFilenameGUID" alt="Your Profile Image">
+                <img class="profilePictureSmall" src="~/images/profilePictures/@Model.SortedBroadcasts[i].User.ProfileImageFilenameGUID" alt="Your Profile Image">
                 @Model.SortedBroadcasts[i].User.Name
                 (@Model.SortedBroadcasts[i].Published.ToShortDateString() @Model.SortedBroadcasts[i].Published.ToShortTimeString())
             </b>:
-            @Model.SortedBroadcasts[i].Message
         </p>
+        <p>@Model.SortedBroadcasts[i].Message</p>
 
 
         @if (@Model.SortedBroadcasts[i].ImageFilenameGUID != "")
@@ -39,5 +41,7 @@
         <input type="hidden" name="BroadcastId" value=@broadcast.Id>
         <input type="submit" value="Like" />
     </form> *@
+    </div>
     }
 }
+</div>

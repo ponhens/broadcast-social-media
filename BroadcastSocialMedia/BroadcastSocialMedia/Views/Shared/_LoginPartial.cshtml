@@ -2,31 +2,33 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<ul class="navlist-right" @* class="navbar-nav" *@>
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-             <a class="nav-link text-dark" href="/RecommendedUsers">Recommended users to follow</a>
+    <li @* class="nav-item" *@>
+             <a class="nav-link text-dark" href="/RecommendedUsers">RECOMMENDED USERS TO FOLLOW</a>
     </li>
-    <li class="nav-item">
-            <a class="nav-link text-dark" href="/Profile">Profile</a>
+    <li @* class="nav-item" *@>
+            <a class="nav-link text-dark" href="/Profile">PROFILE</a>
     </li>
-    <li class="nav-item">
-            <a class="nav-link text-dark" href="/Users">Search users</a>
+    <li @* class="nav-item" *@>
+            <a class="nav-link text-dark" href="/Users">SEARCH USERS</a>
     </li>
-    <li class="nav-item">
+    <li @* class="nav-item" *@>
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            <button  type="submit" class="logoutButton ">LOGOUT</button>
         </form>
     </li>
 }
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">REGISTER</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">LOGIN</a>
     </li>
 }
 </ul>

@@ -1,6 +1,6 @@
 ﻿@model UsersIndexViewModel
 
-<div>
+<div class="viewsContainer">
 
     <h1>Search for users</h1>
 
@@ -10,9 +10,9 @@
 
     </form>
 
-    <hr/>
+    @* <hr/> *@
 
-    <h2>Results</h2>
+    <h2 style="margin-top:40px;">Results</h2>
 
     @foreach (var user in Model.Result)
     {
@@ -22,4 +22,4 @@
         </p>
     }
 
-</div> 
+</div>

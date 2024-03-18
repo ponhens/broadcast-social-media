@@ -6,54 +6,53 @@
 
 @if (Model != null)
 {
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-        {
-            <div class="alert alert-danger">
-                @Model.ErrorMessage
+    <div class="viewsContainer">
+        <h2>Create new Broadcast</h2>
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div style="color:red;" class="alert alert-danger">
+                    @Model.ErrorMessage
+                </div>
+            }
+            <form class="newBroadcastForm" method="post" action="/Home/Broadcast" enctype="multipart/form-data">
+            <div class="newBroadcastFormFlexContainer">
+            <textarea class="textArea" name="Message" rows="3" cols="60"></textarea> <br />
+            <input type="file" name="ImageFile" data-buttonText="Choose image">
             </div>
-        }
-        <h2>New Broadcast</h2>
-        <form method="post" action="/Home/Broadcast" enctype="multipart/form-data">
-            <textarea name="Message"></textarea> <br />
-            <input type="file" name="ImageFile">
-            <input type="submit" value="post" />
-        </form>
-
-        <hr />
+            <input class="postButton" type="submit" value="post" />
+            </form>
 
         <h2>Broadcasts</h2>
         @foreach (var broadcast in @Model.Broadcasts)
         {
-
-            <p>
-                <b>
-                    <img style="height:30px" src="~/images/profilePictures/@broadcast.User.ProfileImageFilenameGUID" alt="Your Profile Image">
-                    @broadcast.User.Name
-                    (@broadcast.Published.ToShortDateString() @broadcast.Published.ToShortTimeString())
-                </b>:
-                @broadcast.Message
-            </p>
+            <div class="broadcast">
+                <p>
+                    <b>
+                        <img class="profilePictureSmall" src="~/images/profilePictures/@broadcast.User.ProfileImageFilenameGUID" alt="Your Profile Image">
+                        @broadcast.User.Name
+                        (@broadcast.Published.ToShortDateString() @broadcast.Published.ToShortTimeString())
+                    </b>:
+                </p>
+                <p>@broadcast.Message</p>
 
             
-                @if (@broadcast.ImageFilenameGUID != "")
+                    @if (@broadcast.ImageFilenameGUID != "")
+                    {
+                        <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
+                    }
+
+
+                @if (broadcast.UserThatLike.Count != 0)
                 {
-                    <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
+                    <p>@broadcast.UserThatLike.Count gillar detta</p>
                 }
 
+                <form method="post" action="/Home/LikeBroadcast">
+                    <input type="hidden" name="BroadcastId" value=@broadcast.Id>
+                    <input type="submit" value="Like" />
+                </form>
 
-            @if (broadcast.UserThatLike.Count != 0)
-            {
-                <p>@broadcast.UserThatLike.Count gillar detta</p>
-            }
-
-            <form method="post" action="/Home/LikeBroadcast">
-                <input type="hidden" name="BroadcastId" value=@broadcast.Id>
-                <input type="submit" value="Like" />
-            </form>
-
-
+            </div>
         }
 
     </div>

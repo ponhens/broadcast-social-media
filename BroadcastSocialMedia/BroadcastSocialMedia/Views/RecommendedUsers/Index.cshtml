@@ -4,6 +4,8 @@
     ViewData["Title"] = "Recommended Users";
 }
 
+<div class="viewsContainer">
+
 @if (Model != null)
 {
 
@@ -20,10 +22,12 @@
 
         @if (@Model.RecommendedUsers[i].ProfileImageFilenameGUID != "")
         {
-            <img style="height:30px" src="~/images/profilePictures/@Model.RecommendedUsers[i].ProfileImageFilenameGUID" alt="Your Profile Image">
+            <img class="profilePictureSmall" src="~/images/profilePictures/@Model.RecommendedUsers[i].ProfileImageFilenameGUID" alt="Your Profile Image">
         }
 
 
         
     }
 }
+
+</div>

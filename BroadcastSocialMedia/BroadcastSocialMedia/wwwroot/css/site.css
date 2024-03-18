@@ -1,5 +1,10 @@
+* {
+    font-family: Helvetica, sans-serif;
+}
+
 html {
-  font-size: 14px;
+    font-size: 14px;
+    background-color: ghostwhite;
 }
 
 @media (min-width: 768px) {
@@ -19,4 +24,136 @@ html {
 
 body {
   margin-bottom: 60px;
+  margin: 0;
+
+}
+
+.container {
+/*    background-color: ghostwhite;*/
+}
+
+.WholeNavbar {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    background-color: ghostwhite;
+    width: 100%;
+    align-items: center;
+    height:80px;
+}
+.navbarLinksCointainer {
+    display: flex;
+    background-color: ghostwhite;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+a {
+    text-decoration: none;
+    font-family: Helvetica, sans-serif;
+    font-weight: bolder;
+    color: black;
+    font-size: 14px;
+}
+
+button {
+    display: inline;
+}
+
+p {
+    color: black;
+
+}
+
+.navlist-left {
+    display: flex;
+   justify-content:space-between;
+   width: 200px;
+}
+
+.navlist-right {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+}
+
+li {
+    list-style-type: none;
+    margin: 0 40px 0 0;
+}
+
+.homeLogo{
+    margin: 0 40px 0 40px;
+    font-size: 22px;
+    font-family: Helvetica, sans-serif;
+    font-weight: bolder;
+    color: black;
+    width: 400px;
+}
+
+.logoutButton {
+    background-color: white;
+    font-family: Helvetica, sans-serif;
+    color: black;
+    height: 32px;
+    width:80px;
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.logoutButton:hover{
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.viewsContainer{
+    margin: 50px 0 0 200px;
+}
+
+.newBroadcastForm{
+    
+}
+
+.newBroadcastFormFlexContainer {
+    display: flex;
+
+}
+
+.textArea {
+    margin: 0 10px 0 0;
+}
+.profilePictureSmall {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profilePictureBig {
+    margin: 20px 0 0 0;
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.postButton{
+    margin: 10px 0 35px 0;
+    width: 466px;
+    height: 30px
+}
+
+.broadcast {
+    background-color: white;
+    /*width: fit-content;*/
+    width: 800px;
+    padding: 0 10px 12px 12px;
+    margin: 0 0 30px 0;
+    border-radius: 5px;
+    border: 1px solid #e2e2e2
 }
