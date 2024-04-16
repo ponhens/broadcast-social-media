@@ -14,10 +14,11 @@
                     @Model.ErrorMessage
                 </div>
             }
+            @* Punkt2 *@
             <form class="newBroadcastForm" method="post" action="/Home/Broadcast" enctype="multipart/form-data">
             <div class="newBroadcastFormFlexContainer">
             <textarea class="textArea" name="Message" rows="3" cols="60"></textarea> <br />
-            <input type="file" name="ImageFile" data-buttonText="Choose image">
+            <input type="file" name="ImageFile">
             </div>
             <input class="postButton" type="submit" value="post" />
             </form>
@@ -41,7 +42,7 @@
                         <img style="height:100px" src="~/images/broadcastImages/@broadcast.ImageFilenameGUID" alt="Your Image">
                     }
 
-
+                @* Punkt5 *@
                 @if (broadcast.UserThatLike.Count != 0)
                 {
                     <p>@broadcast.UserThatLike.Count gillar detta</p>

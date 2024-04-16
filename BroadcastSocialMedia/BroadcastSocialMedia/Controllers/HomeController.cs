@@ -73,6 +73,8 @@ namespace BroadcastSocialMedia.Controllers
         public async Task<IActionResult> Broadcast(HomeBroadcastViewModel viewModel)
         {
             var user = await _userManager.GetUserAsync(User);
+
+            //Punkt8
             if (string.IsNullOrEmpty(viewModel.Message))
             {
                 var broadcasts = await _dbContext.Users.Where(u => u.Id == user.Id)

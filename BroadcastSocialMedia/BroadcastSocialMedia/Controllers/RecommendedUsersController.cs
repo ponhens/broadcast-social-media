@@ -18,6 +18,8 @@ namespace BroadcastSocialMedia.Controllers
             _dbContext = dbContext;
 
         }
+
+        //Punkt7
         public async Task<IActionResult> Index()
         {
             var allUsers = await _dbContext.Users.ToListAsync();
@@ -27,6 +29,8 @@ namespace BroadcastSocialMedia.Controllers
             var usersListenedTo = await _dbContext.Users.Where(u => u.Id == user.Id)
                     .SelectMany(u => u.ListeningTo)
                     .ToListAsync();
+
+            usersListenedTo.Add(user);
 
             var userNotListenedTo = allUsers.Except(usersListenedTo).ToList();
             userNotListenedTo = ShuffleList(userNotListenedTo);

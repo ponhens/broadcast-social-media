@@ -38,6 +38,7 @@ namespace BroadcastSocialMedia.Controllers
             var user = await _userManager.GetUserAsync(User);
             var anotherUserAlreadyHasThatName = false;
 
+            //Punkt3
             if (viewModel.Name != user.Name)
             {
                 anotherUserAlreadyHasThatName = _dbContext.Users.Any(u => u.Name == viewModel.Name);
