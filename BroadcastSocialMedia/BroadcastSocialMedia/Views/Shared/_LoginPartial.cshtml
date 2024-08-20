@@ -3,6 +3,8 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+@* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+
 
 <ul class="navlist-right" @* class="navbar-nav" *@>
 @if (SignInManager.IsSignedIn(User))
